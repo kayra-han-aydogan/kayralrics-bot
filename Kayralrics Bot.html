@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="theme-color" content="#05070f">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Kayralrics Bot – game automation software.">
+<title>Kayralrics Bot</title>
+<style>
+:root{
+--bg:#05070f;
+--grad:linear-gradient(100deg,#2f7bff 0%,#8a5cff 50%,#ff2d55 100%);
+--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,"Liberation Sans","DejaVu Sans",Tahoma,Verdana,sans-serif;
+color-scheme:dark;
+box-sizing:border-box;
+padding-top:env(safe-area-inset-top,0px);
+padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{
+height:100%;
+background-color:#05070f;
+background-image:radial-gradient(55% 55% at 15% 20%,rgba(47,123,255,.32),transparent 70%),radial-gradient(55% 55% at 85% 80%,rgba(255,45,85,.3),transparent 70%);
+background-repeat:no-repeat;
+-webkit-text-size-adjust:100%;
+-moz-text-size-adjust:100%;
+text-size-adjust:100%;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{
+margin:0;
+min-height:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:24px;
+padding-left:max(24px,env(safe-area-inset-left,0px));
+padding-right:max(24px,env(safe-area-inset-right,0px));
+background:transparent;
+color:#ffffff;
+font-family:var(--font);
+overflow-x:hidden;
+-webkit-font-smoothing:antialiased;
+-moz-osx-font-smoothing:grayscale;
+-webkit-tap-highlight-color:transparent;
+}
+.btn{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+padding:22px 56px;
+border-radius:16px;
+font-family:var(--font);
+font-weight:700;
+font-size:1.35rem;
+font-size:clamp(1.1rem,3.4vw,1.5rem);
+letter-spacing:.01em;
+text-align:center;
+text-decoration:none;
+color:#ffffff;
+background-color:#8a5cff;
+background-image:var(--grad);
+box-shadow:0 10px 40px rgba(255,45,85,.35),0 10px 40px rgba(47,123,255,.3);
+transition:transform .2s ease,filter .2s ease;
+animation:glow 3s ease-in-out infinite;
+}
+.btn:hover{transform:translateY(-3px) scale(1.03);filter:brightness(1.1)}
+.btn:active{transform:scale(.98)}
+.btn:focus-visible{outline:3px solid #ffffff;outline-offset:5px}
+@keyframes glow{50%{box-shadow:0 14px 56px rgba(255,45,85,.55),0 14px 56px rgba(47,123,255,.5)}}
+@media (hover:none){.btn:hover{transform:none;filter:none}}
+@media (max-width:420px){.btn{width:100%;padding:20px 24px}}
+@media (prefers-reduced-motion:reduce){.btn{animation:none;transition:none}}
+</style>
+</head>
+<body>
+<a class="btn" href="https://kayralrics.com" rel="noopener">Get Kayralrics Bot</a>
+</body>
+</html>
