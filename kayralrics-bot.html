@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="theme-color" content="#05070f">
+<meta name="color-scheme" content="dark">
+<title>Kayralrics Bot – Game Automation Software</title>
+<meta name="description" content="Kayralrics Bot is a fast, reliable game automation suite with smart scheduling, custom profiles and a live dashboard.">
+<style>
+:root{
+--bg:#05070f;--bg2:#0a0f1f;--panel:#0d1428;--line:rgba(120,150,255,.16);
+--blue:#2f7bff;--blue2:#59a8ff;--red:#ff2d55;--red2:#ff6b81;
+--text:#eef2ff;--muted:#98a4c7;
+--grad:linear-gradient(100deg,#2f7bff 0%,#8a5cff 50%,#ff2d55 100%);
+--display:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,"Liberation Sans","DejaVu Sans",Tahoma,Verdana,sans-serif;
+--body:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Helvetica,Arial,"Liberation Sans","DejaVu Sans",Tahoma,Verdana,sans-serif;
+color-scheme:dark;
+box-sizing:border-box;
+padding-top:env(safe-area-inset-top,0px);
+padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-behavior:smooth;scroll-padding-top:calc(80px + env(safe-area-inset-top,0px));-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:100%}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-tap-highlight-color:transparent}
+body::before{content:"";position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:60}
+img,svg{max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--display);line-height:1.1;margin:0;letter-spacing:-.01em}
+p{margin:0}
+:focus-visible{outline:2px solid var(--blue2);outline-offset:3px;border-radius:6px}
+.wrap{width:100%;max-width:1160px;margin:0 auto;padding:0 22px;padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:max(22px,env(safe-area-inset-right,0px))}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.blue-text{background:linear-gradient(90deg,#59a8ff,#2f7bff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+.red-text{background:linear-gradient(90deg,#ff6b81,#ff2d55);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){.grad-text,.blue-text,.red-text{background:none;-webkit-text-fill-color:currentColor;color:#fff}.red-text{color:#ff6b81}.blue-text{color:#59a8ff}}
+
+header{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;background:rgba(5,7,15,.72);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{font-family:var(--display);font-weight:700;font-size:1.25rem;display:flex;align-items:center;gap:10px}
+.logo b{color:var(--red2);font-weight:700}
+.links{display:flex;align-items:center;gap:30px;font-weight:500;color:var(--muted);font-size:.95rem}
+.links a:hover{color:var(--text)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;border-radius:12px;font-family:var(--display);font-weight:600;font-size:1rem;border:1px solid transparent;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s;color:#fff;background:var(--grad);box-shadow:0 8px 30px rgba(255,45,85,.28),0 8px 30px rgba(47,123,255,.22)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 38px rgba(255,45,85,.4),0 12px 38px rgba(47,123,255,.32)}
+.btn.ghost{background:transparent;border-color:var(--line);box-shadow:none;color:var(--text)}
+.btn.ghost:hover{border-color:var(--blue2);background:rgba(47,123,255,.1);box-shadow:none}
+.btn.small{padding:9px 18px;font-size:.92rem}
+.burger{display:none;width:44px;height:44px;padding:0;-webkit-appearance:none;appearance:none;border-radius:10px;border:1px solid var(--line);background:transparent;cursor:pointer;position:relative}
+.burger span,.burger span::before,.burger span::after{position:absolute;left:12px;right:12px;height:2px;background:var(--text);content:"";transition:transform .25s,top .25s,opacity .2s}
+.burger span{top:21px}.burger span::before{top:-7px;left:0;right:0}.burger span::after{top:7px;left:0;right:0}
+.burger[aria-expanded="true"] span{background:transparent}
+.burger[aria-expanded="true"] span::before{top:0;transform:rotate(45deg)}
+.burger[aria-expanded="true"] span::after{top:0;transform:rotate(-45deg)}
+
+.hero{position:relative;padding:150px 0 90px;overflow:hidden}
+.hero::before{content:"";position:absolute;top:0;right:0;bottom:0;left:0;background:radial-gradient(60% 55% at 12% 20%,rgba(47,123,255,.32),transparent 70%),radial-gradient(55% 55% at 92% 78%,rgba(255,45,85,.3),transparent 70%);pointer-events:none}
+.hero::after{content:"";position:absolute;top:0;right:0;bottom:0;left:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse at 50% 40%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse at 50% 40%,#000 20%,transparent 75%);opacity:.55;pointer-events:none}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:56px;align-items:center}
+.hero .wrap>*{min-width:0}
+h1{font-size:3rem;font-size:clamp(2.5rem,6.2vw,4.9rem);font-weight:700}
+h1 span{display:block}
+.lead{margin-top:24px;font-size:1.15rem;color:var(--muted);max-width:30em}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.trust{display:flex;flex-wrap:wrap;gap:26px;margin-top:38px;color:var(--muted);font-size:.92rem}
+.trust strong{display:block;font-family:var(--display);font-size:1.55rem;color:var(--text)}
+
+.console{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(15,23,48,.95),rgba(8,12,26,.95));box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 0 1px rgba(47,123,255,.12),0 0 70px rgba(47,123,255,.18);overflow:hidden;position:relative}
+.console::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--grad)}
+.bar{display:flex;align-items:center;gap:8px;padding:14px 18px;border-bottom:1px solid var(--line);font-size:.82rem;color:var(--muted)}
+.bar i{width:11px;height:11px;border-radius:50%;background:#2a3357}
+.bar i:nth-child(1){background:#ff5f6d}.bar i:nth-child(2){background:#ffc14d}.bar i:nth-child(3){background:#3dffa0}
+.bar em{margin-left:auto;font-style:normal;color:var(--blue2)}
+.stage{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:44px 32px 52px;min-height:300px;font-family:var(--display);font-weight:700;line-height:1.05;word-wrap:break-word;overflow-wrap:break-word}
+.stage small{margin-bottom:8px;font-size:1.9rem;font-size:clamp(1.3rem,3.2vw,2.2rem);font-weight:600;color:var(--muted)}
+.stage strong{font-size:2.6rem;font-size:clamp(1.5rem,4vw,3rem)}
+
+section{padding:96px 0}
+.head{max-width:640px;margin-bottom:52px}
+.head h2{font-size:2.4rem;font-size:clamp(2rem,4.2vw,3.1rem)}
+.head p{margin-top:16px;color:var(--muted);font-size:1.08rem}
+.head.center{margin-left:auto;margin-right:auto;text-align:center}
+
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}
+.tile{position:relative;padding:30px;border-radius:20px;background:var(--panel);border:1px solid var(--line);overflow:hidden;transition:border-color .25s,transform .25s}
+.tile:hover{border-color:rgba(89,168,255,.55);transform:translateY(-3px)}
+.tile h3{font-size:1.3rem;margin-bottom:10px}
+.tile p{color:var(--muted);font-size:.98rem}
+.tile .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;margin-bottom:22px;background:rgba(47,123,255,.14);color:var(--blue2)}
+.tile.r .ic{background:rgba(255,45,85,.14);color:var(--red2)}
+.tile svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.t-a{grid-column:span 4;background:radial-gradient(90% 120% at 100% 0,rgba(47,123,255,.28),transparent 60%),var(--panel)}
+.t-a h3{font-size:1.9rem}
+.t-b{grid-column:span 2;background:radial-gradient(120% 100% at 0 100%,rgba(255,45,85,.26),transparent 60%),var(--panel)}
+.t-c,.t-d{grid-column:span 3}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;counter-reset:s}
+.step{position:relative;padding:34px 28px 30px;border-left:2px solid var(--line)}
+.step::before{counter-increment:s;content:counter(s);position:absolute;left:-17px;top:0;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:700;background:var(--grad);color:#fff;font-size:.95rem}
+.step h3{font-size:1.35rem;margin-bottom:10px}
+.step p{color:var(--muted)}
+
+.plans{display:grid;grid-template-columns:minmax(0,480px);justify-content:center}
+.plan{display:flex;flex-direction:column;padding:34px 30px;border-radius:22px;background:var(--panel);border:1px solid var(--line)}
+.plan h3{font-size:1.4rem}
+.plan .sub{color:var(--muted);margin-top:6px;font-size:.96rem}
+.price{font-family:var(--display);font-size:4.4rem;font-weight:700;margin:24px 0 4px}
+.price small{font-size:1rem;color:var(--muted);font-weight:500}
+.plan ul{list-style:none;margin:22px 0 30px;padding:0;display:grid;gap:12px;color:var(--muted);font-size:.97rem}
+.plan li{padding-left:28px;position:relative}
+.plan li::before{content:"";position:absolute;left:0;top:7px;width:14px;height:8px;border-left:2px solid #3dffa0;border-bottom:2px solid #3dffa0;transform:rotate(-45deg)}
+.plan .btn{margin-top:auto}
+.note{margin-top:16px;font-size:.88rem;line-height:1.5;color:var(--muted);text-align:center}
+.plan.hot{position:relative;background:linear-gradient(var(--panel),var(--panel)) padding-box,var(--grad) border-box;border:2px solid transparent;box-shadow:0 30px 80px rgba(255,45,85,.18),0 30px 80px rgba(47,123,255,.18)}
+.badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);padding:5px 16px;border-radius:99px;background:var(--grad);font-family:var(--display);font-weight:700;font-size:.85rem;white-space:nowrap}
+
+.faq{max-width:820px;margin:0 auto;display:grid;gap:14px}
+details{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:0 24px}
+summary{cursor:pointer;list-style:none;padding:22px 34px 22px 0;font-family:var(--display);font-weight:600;font-size:1.12rem;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:0;top:50%;transform:translateY(-50%);font-size:1.6rem;color:var(--red2);transition:transform .25s}
+details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+details[open]{border-color:rgba(89,168,255,.45)}
+details p{padding:0 0 22px;color:var(--muted)}
+
+.final{position:relative;text-align:center;padding:84px 24px;border-radius:28px;border:1px solid var(--line);overflow:hidden;background:radial-gradient(60% 90% at 0 100%,rgba(47,123,255,.4),transparent 70%),radial-gradient(60% 90% at 100% 0,rgba(255,45,85,.4),transparent 70%),var(--bg2)}
+.final h2{font-size:2.6rem;font-size:clamp(2rem,4.6vw,3.4rem);max-width:15em;margin:0 auto}
+.final p{margin:18px auto 34px;color:var(--muted);max-width:34em}
+
+footer{padding:48px 0 calc(48px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+.foot{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;align-items:flex-start}
+.foot nav{display:flex;flex-wrap:wrap;gap:22px}
+.foot nav a:hover{color:var(--text)}
+.legal{margin-top:28px;font-size:.82rem;line-height:1.7;max-width:760px;opacity:.85}
+
+.js .rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.js .rv.on{opacity:1;transform:none}
+
+@media (max-width:980px){
+.hero{padding-top:128px}
+.hero .wrap{grid-template-columns:1fr;gap:48px}
+.t-a,.t-b{grid-column:span 6}
+.steps{grid-template-columns:1fr;gap:8px}
+}
+@media (max-width:760px){
+.burger{display:block}
+.links{position:fixed;top:calc(69px + env(safe-area-inset-top,0px));left:0;right:0;flex-direction:column;align-items:stretch;gap:0;padding:10px 22px 24px;background:rgba(5,7,15,.97);border-bottom:1px solid var(--line);transform:translateY(-130%);transition:transform .3s ease;visibility:hidden}
+.links.open{transform:none;visibility:visible}
+.links a:not(.btn){padding:16px 0;border-bottom:1px solid var(--line);font-size:1.05rem}
+.links .btn{margin-top:18px}
+section{padding:72px 0}
+.t-c,.t-d{grid-column:span 6}
+.stage{padding:30px 22px 36px;min-height:220px}
+.tile{padding:24px}
+}
+@media (max-width:420px){
+body{font-size:16px}
+.btn{width:100%}
+.cta-row{flex-direction:column}
+}
+@media (hover:none){.btn:hover,.tile:hover{transform:none}}
+@media (prefers-reduced-motion:reduce){
+html{scroll-behavior:auto}
+*,*::before,*::after{animation:none!important;transition:none!important}
+.js .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap nav">
+<a href="#top" class="logo" aria-label="Kayralrics Bot home">Kayralrics <b>Bot</b></a>
+<button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false" aria-controls="menu"><span></span></button>
+<nav class="links" id="menu" aria-label="Main">
+<a href="#features">Features</a>
+<a href="#how">How it works</a>
+<a href="#pricing">Pricing</a>
+<a href="#faq">FAQ</a>
+<a href="#pricing" class="btn small" data-buy>Get Kayralrics Bot</a>
+</nav>
+</div>
+</header>
+
+<main id="top">
+<div class="hero">
+<div class="wrap">
+<div>
+<h1><span class="blue-text">Automate the grind.</span><span class="red-text">Enjoy the game.</span></h1>
+<p class="lead">Kayralrics Bot handles the repetitive tasks for you, so you can spend your time on the moments that matter. Set it up in minutes and let it run around the clock.</p>
+<div class="cta-row">
+<a href="#pricing" class="btn" data-buy>Get Kayralrics Bot</a>
+<a href="#features" class="btn ghost">Explore features</a>
+</div>
+<div class="trust">
+<div><strong>Instant</strong>license delivery</div>
+<div><strong>Simple</strong>setup in minutes</div>
+<div><strong>Friendly</strong>customer support</div>
+</div>
+</div>
+
+<div class="console" aria-label="Kayralrics Bot preview">
+<div class="bar"><i></i><i></i><i></i><span>kayralrics bot</span></div>
+<div class="stage"><small>powered by</small><strong class="grad-text">kayralrics.com</strong></div>
+</div>
+</div>
+</div>
+
+<section id="features">
+<div class="wrap">
+<div class="head rv">
+<h2>Everything you need to automate</h2>
+<p>Simple tools that take repetitive tasks off your hands.</p>
+</div>
+<div class="bento">
+<article class="tile t-a rv">
+<div class="ic"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></div>
+<h3>Smart task automation</h3>
+<p>Create routines for the repetitive tasks in your game. Kayralrics Bot runs them consistently, so you never have to repeat the same steps by hand.</p>
+</article>
+<article class="tile t-b r rv">
+<div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+<h3>Flexible scheduler</h3>
+<p>Plan start and stop times for every day of the week.</p>
+</article>
+<article class="tile t-c r rv">
+<div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M8 14h3"/></svg></div>
+<h3>Custom profiles</h3>
+<p>Save unlimited setups and switch between them with a single click.</p>
+</article>
+<article class="tile t-d rv">
+<div class="ic"><svg viewBox="0 0 24 24"><path d="M3 20V10M9 20V4M15 20v-7M21 20V8"/></svg></div>
+<h3>Live dashboard</h3>
+<p>Follow your progress in real time with clear stats and detailed session logs.</p>
+</article>
+
+</div>
+</div>
+</section>
+
+<section id="how">
+<div class="wrap">
+<div class="head center rv">
+<h2>Up and running in three steps</h2>
+<p>No complicated setup and no technical background required.</p>
+</div>
+<div class="steps">
+<div class="step rv"><h3>Get your license</h3><p>Complete the secure $1 checkout and share your phone number and email address with us. We send your license key to both.</p></div>
+<div class="step rv"><h3>Install and activate</h3><p>Download the installer, enter your license key and follow the quick setup guide.</p></div>
+<div class="step rv"><h3>Press start</h3><p>Select a profile, set your schedule and let Kayralrics Bot take care of the rest.</p></div>
+</div>
+</div>
+</section>
+
+<section id="pricing">
+<div class="wrap">
+<div class="head center rv">
+<h2>One plan. One dollar.</h2>
+<p>Get the complete Kayralrics Bot experience for just $1, with no hidden fees.</p>
+</div>
+<div class="plans">
+<div class="plan hot rv">
+<h3>Kayralrics Bot</h3>
+<p class="sub">Everything you need, in one plan.</p>
+<div class="price">$1</div>
+<ul><li>Your license key is sent to your phone</li><li>Your license key is sent to your email</li></ul>
+<a href="#pricing" class="btn" data-buy>Get Kayralrics Bot</a>
+<p class="note">Your license key will be sent to the phone number and email address you share with us.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="faq">
+<div class="wrap">
+<div class="head center rv">
+<h2>Frequently asked questions</h2>
+</div>
+<div class="faq rv">
+<details><summary>Do I need any technical skills?</summary><p>No. The setup is guided, so you can have the bot running in just a few minutes.</p></details>
+<details><summary>How much does Kayralrics Bot cost?</summary><p>Kayralrics Bot costs just $1. There is a single plan with every feature included and no hidden fees.</p></details>
+<details><summary>How do I receive my license key?</summary><p>Your license key is sent to the phone number and email address you share with us when you place your order. Please make sure both are correct.</p></details>
+<details><summary>What if a game update breaks something?</summary><p>Game updates can occasionally affect automation. Our team monitors patches and works to release fixes as quickly as possible.</p></details>
+<details><summary>Does the game allow bots?</summary><p>That depends on the game’s terms of service. Please read them before using any automation software, and use Kayralrics Bot responsibly.</p></details>
+</div>
+</div>
+</section>
+
+<section style="padding-top:0">
+<div class="wrap">
+<div class="final rv">
+<h2 class="grad-text">Ready to level up your game?</h2>
+<p>Get Kayralrics Bot for just $1 and start saving hours on repetitive tasks today.</p>
+<a href="#pricing" class="btn" data-buy>Get Kayralrics Bot today</a>
+</div>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="wrap">
+<div class="foot">
+<div class="logo">Kayralrics <b>Bot</b></div>
+<nav aria-label="Footer"><a href="#features">Features</a><a href="#how">How it works</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></nav>
+</div>
+<p class="legal">© 2026 Kayralrics Bot. All rights reserved. Kayralrics Bot is an independent product and is not affiliated with, endorsed by or sponsored by any game publisher or developer. All game names and trademarks belong to their respective owners. Using automation software may be restricted by a game’s terms of service, and you are responsible for how you use it.</p>
+</div>
+</footer>
+
+<script>
+var CHECKOUT_URL='';
+(function(){
+var d=document,root=d.documentElement;
+root.className+=' js';
+var burger=d.getElementById('burger'),menu=d.getElementById('menu');
+function setMenu(open){
+menu.classList.toggle('open',open);
+burger.setAttribute('aria-expanded',open?'true':'false');
+}
+burger.addEventListener('click',function(){setMenu(!menu.classList.contains('open'))});
+d.addEventListener('keydown',function(e){if(e.key==='Escape'||e.keyCode===27){setMenu(false)}});
+var anchors=menu.getElementsByTagName('a');
+for(var i=0;i<anchors.length;i++){anchors[i].addEventListener('click',function(){setMenu(false)})}
+var buyLinks=d.querySelectorAll('[data-buy]');
+if(CHECKOUT_URL){
+for(var b=0;b<buyLinks.length;b++){
+buyLinks[b].setAttribute('href',CHECKOUT_URL);
+buyLinks[b].setAttribute('target','_blank');
+buyLinks[b].setAttribute('rel','noopener noreferrer');
+}
+}
+
+var items=d.querySelectorAll('.rv');
+if('IntersectionObserver' in window){
+var io=new IntersectionObserver(function(es){
+es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})
+},{threshold:.12});
+for(var j=0;j<items.length;j++){io.observe(items[j])}
+}else{
+for(var k=0;k<items.length;k++){items[k].className+=' on'}
+}
+
+})();
+</script>
+</body>
+</html>
